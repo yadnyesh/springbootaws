@@ -1,6 +1,7 @@
 package yb.yadnyesh.restwithspringboot.controller;
 
 import org.springframework.web.bind.annotation.*;
+import yb.yadnyesh.restwithspringboot.exception.UnsupportedMathOperationException;
 import yb.yadnyesh.restwithspringboot.model.Greeting;
 
 import java.util.concurrent.atomic.AtomicLong;
@@ -14,7 +15,7 @@ public class MathController {
     public Double greeting(@PathVariable(value = "numberOne") String numberOne,
                              @PathVariable(value = "numberTwo") String numberTwo) throws Exception {
         if(!isNumeric(numberOne) || !isNumeric(numberTwo)) {
-            throw new Exception();
+            throw new UnsupportedMathOperationException("Please enter numeric value");
         }
         Double sum = convertToDouble(numberOne) + convertToDouble(numberTwo);
         return sum;

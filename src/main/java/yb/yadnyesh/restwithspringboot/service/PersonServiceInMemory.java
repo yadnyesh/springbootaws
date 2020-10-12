@@ -1,7 +1,7 @@
 package yb.yadnyesh.restwithspringboot.service;
 
 import org.springframework.stereotype.Service;
-import yb.yadnyesh.restwithspringboot.model.Person;
+import yb.yadnyesh.restwithspringboot.data.vo.model.Person;
 
 import java.util.ArrayList;
 import java.util.List;

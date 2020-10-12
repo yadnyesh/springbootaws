@@ -1,4 +1,4 @@
-package yb.yadnyesh.restwithspringboot.model;
+package yb.yadnyesh.restwithspringboot.data.vo.model;
 
 public class Greeting {
     private final long id;

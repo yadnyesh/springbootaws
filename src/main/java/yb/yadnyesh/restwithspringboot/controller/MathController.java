@@ -2,7 +2,6 @@ package yb.yadnyesh.restwithspringboot.controller;
 
 import org.springframework.web.bind.annotation.*;
 import yb.yadnyesh.restwithspringboot.exception.UnsupportedMathOperationException;
-import yb.yadnyesh.restwithspringboot.model.Greeting;
 
 import java.util.concurrent.atomic.AtomicLong;
 

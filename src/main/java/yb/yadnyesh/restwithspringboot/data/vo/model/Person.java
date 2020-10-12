@@ -1,4 +1,4 @@
-package yb.yadnyesh.restwithspringboot.model;
+package yb.yadnyesh.restwithspringboot.data.vo.model;
 
 import javax.persistence.*;
 import java.io.Serializable;

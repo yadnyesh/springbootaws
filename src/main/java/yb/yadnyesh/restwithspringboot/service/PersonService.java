@@ -1,7 +1,10 @@
 package yb.yadnyesh.restwithspringboot.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import yb.yadnyesh.restwithspringboot.exception.ResourceNotFoundException;
 import yb.yadnyesh.restwithspringboot.model.Person;
+import yb.yadnyesh.restwithspringboot.repository.PersonRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,58 +12,39 @@ import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 public class PersonService {
-    private final AtomicLong counter = new AtomicLong();
+
+    @Autowired
+    PersonRepository personRepository;
+
     List<Person> personList = new ArrayList<>();
 
-    public Person findByID(int id) {
-        Person person = new Person();
-        person.setId(counter.incrementAndGet());
-        person.setFirstName("Yadnyesh");
-        person.setLastName("Juvekar");
-        person.setAddress("Mollo - Cumbharjua - Goa");
-        person.setGender("Male");
-        return person;
+    public Person findByID(Long id) {
+        return personRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Person not found"));
     }
 
     public List<Person> findAllPeople() {
-        personList.add(new Person(counter.incrementAndGet(),"Yadnyesh","Juvekar","Mollo - Cumbharjua - Goa","Male"));
-        personList.add(new Person(counter.incrementAndGet(),"Bharat","Juvekar","Mollo - Cumbharjua - Goa","Male"));
-        personList.add(new Person(counter.incrementAndGet(),"Varada","Juvekar","Mollo - Cumbharjua - Goa","Female"));
-        personList.add(new Person(counter.incrementAndGet(),"Smita","Juvekar","Mollo - Cumbharjua - Goa","Female"));
-        personList.add(new Person(counter.incrementAndGet(),"Bindiya","Juvekar","Mollo - Cumbharjua - Goa","Female"));
-        return personList;
-    }
-
-    public Person createPerson(Person person) {
-        Person newPerson = new Person();
-        newPerson.setId(counter.incrementAndGet());
-        newPerson.setFirstName(person.getFirstName());
-        newPerson.setLastName(person.getLastName());
-        newPerson.setAddress(person.getAddress());
-        newPerson.setGender(person.getGender());
-        personList.add(newPerson);
-        return newPerson;
+        return personRepository.findAll();
     }
 
     public Person create(Person person) {
-        return person;
+        return personRepository.save(person);
     }
 
     public Person update(Person person) {
-        return person;
+        Person entity = personRepository.findById(person.getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Person not found"));
+        entity.setFirstName(person.getFirstName());
+        entity.setLastName(person.getLastName());
+        entity.setAddress(person.getAddress());
+        entity.setGender(person.getGender());
+        personRepository.save(entity);
+        return entity;
     }
 
-    public void delete(String id) {
-
+    public void delete(Long id) {
+        Person entity = personRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Person not found"));
+        personRepository.delete(entity);
     }
 
-    private Person mockPerson(int i) {
-        Person person = new Person();
-        person.setId(counter.incrementAndGet());
-        person.setFirstName("Person name" + i);
-        person.setLastName("Last name" + i);
-        person.setAddress("Some address in Brasil" + i);
-        person.setGender("Male");
-        return person;
-    }
 }
